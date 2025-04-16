@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly Summary - Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-circle">
+                <span class="logo-symbol">₹</span>
+            </div>
+            <h1>Monthly Summary - {{ month }}</h1>
+        </div>
+
+        <div class="summary-grid">
+            <div class="category-summary">
+                <div class="category-wise-expenses">Category-wise Expenses</div>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category, amount in category_expenses.items() %}
+                        <tr>
+                            <td>{{ category }}</td>
+                            <td>₹{{ "%.2f"|format(amount) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="date-summary">
+                <div class="date-wise-expenses">Date-wise Expenses</div>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for date, expenses in date_expenses.items() %}
+                            {% for category, amount in expenses.items() %}
+                            <tr>
+                                <td>{{ date }}</td>
+                                <td>{{ category }}</td>
+                                <td>₹{{ "%.2f"|format(amount) }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if budget_alerts %}
+        <div class="alerts">
+            <h3>Budget Alerts</h3>
+            {% for alert in budget_alerts %}
+            <p class="alert">Warning: {{ alert.category }} spending (₹{{ "%.2f"|format(alert.spent) }}) has exceeded 80% of budget (₹{{ "%.2f"|format(alert.budget) }})</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <a href="{{ url_for('index') }}" class="btn">Back to Home</a>
+    </div>
+</body>
+</html>

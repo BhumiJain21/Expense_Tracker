@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Expense Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-circle">
+                <span class="logo-symbol">₹</span>
+            </div>
+            <h1>Login</h1>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="login-form">
+            {% if not email_submitted %}
+            <form action="{{ url_for('login') }}" method="POST">
+                <input type="text" name="username" placeholder="Enter your username" required>
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <button type="submit">Get OTP</button>
+            </form>
+            {% else %}
+            <form action="{{ url_for('verify_otp') }}" method="POST">
+                <input type="hidden" name="email" value="{{ email }}">
+                <input type="hidden" name="username" value="{{ username }}">
+                <input type="text" name="otp" placeholder="Enter OTP" required>
+                <button type="submit">Verify OTP</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
