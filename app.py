@@ -285,8 +285,8 @@ def verify_otp():
         return redirect(url_for('login'))
 
 def send_otp_email(email, otp):
-    sender_email = "bhumijain7533@gmail.com"  # Replace with your email
-    sender_password = "jxdwlokcqmkjruew"   # Replace with your app password
+    sender_email = "mygmail@gmail.com"  # Replace with your email
+    sender_password = ""   # Replace with your app password
     
     msg = MIMEText(f'Your OTP for Expense Tracker login is: {otp}\nThis OTP will expire in 5 minutes.')
     msg['Subject'] = 'Expense Tracker Login OTP'
